@@ -3,72 +3,40 @@ import Window from './Window';
 
 import FileIcon from './FileIcon';
 
-const DOCUMENTS_NAME = "Documents"
-const DOCUMENTS_ICON = "folder_file"
-
-const COMPUTER_NAME = "Computer"
-const COMPUTER_ICON = "computer"
-
-const PROJECTS_NAME = "Projects"
-const PROJECTS_ICON = "folder"
-
 class DesktopIcons extends Component {
   
   render() {
-    const { openWindowHandler, closeWindowHandler } = this.props;
-
-    const openDocuments = () => {
-      openWindowHandler(DOCUMENTS_NAME, 
-        <Window 
-          icon={DOCUMENTS_ICON}
-          title={DOCUMENTS_NAME}
-          content={DOCUMENTS_NAME}
-          closeHandler={closeWindowHandler}
-        />);
-    };
-
-    const openComputer = () => {
-      openWindowHandler(COMPUTER_NAME,
-        <Window
-          icon={COMPUTER_ICON}
-          title={COMPUTER_NAME}
-          content={COMPUTER_NAME}
-          closeHandler={closeWindowHandler}
-        />
-      );
-    }
-
-    const openProjects = () => {
-      openWindowHandler(PROJECTS_NAME,
-        <Window
-          icon={PROJECTS_ICON}
-          title={PROJECTS_NAME}
-          content={PROJECTS_NAME}
-          closeHandler={closeWindowHandler}
-        />
-      );
-    }
+    const { documentsIcon, 
+            documentsName,
+            openDocuments,
+            computerIcon,
+            computerName,
+            openComputer,
+            projectsIcon, 
+            projectsName,
+            openProjects,
+          } = this.props;
 
     return (
       <ul>
         <li>
           <FileIcon 
-            title={DOCUMENTS_NAME}
-            image={DOCUMENTS_ICON}
+            title={documentsName}
+            image={documentsIcon}
             onClick={openDocuments}
           />
         </li>
         <li>
           <FileIcon 
-            title={COMPUTER_NAME}
-            image={COMPUTER_ICON}
+            title={computerName}
+            image={computerIcon}
             onClick={openComputer}
           />
         </li>
         <li>
           <FileIcon 
-            title={PROJECTS_NAME}
-            image={PROJECTS_ICON}
+            title={projectsName}
+            image={projectsIcon}
             onClick={openProjects}
           />
         </li>

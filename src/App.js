@@ -3,12 +3,22 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { reset, themes, Button, AppBar, Toolbar, Avatar } from "react95";
 
 import StartMenu from './components/StartMenu';
+import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
 import { Icon } from '@react95/core';
 
 const ResetStyles = createGlobalStyle`
   ${reset}
 `;
+
+const DOCUMENTS_NAME = "Documents"
+const DOCUMENTS_ICON = "folder_file"
+
+const COMPUTER_NAME = "Computer"
+const COMPUTER_ICON = "computer"
+
+const PROJECTS_NAME = "Projects"
+const PROJECTS_ICON = "folder"
 
 class App extends Component {
 
@@ -74,25 +84,77 @@ class App extends Component {
     }
   }
 
+  openDocuments = () => {
+    this.openWindowHandler(DOCUMENTS_NAME, 
+      <Window 
+        icon={DOCUMENTS_ICON}
+        title={DOCUMENTS_NAME}
+        content={DOCUMENTS_NAME}
+        closeHandler={this.closeWindowHandler}
+      />);
+  };
+
+  openComputer = () => {
+    this.openWindowHandler(COMPUTER_NAME,
+      <Window
+        icon={COMPUTER_ICON}
+        title={COMPUTER_NAME}
+        content={COMPUTER_NAME}
+        closeHandler={this.closeWindowHandler}
+      />
+    );
+  }
+
+  openProjects = () => {
+    this.openWindowHandler(PROJECTS_NAME,
+      <Window
+        icon={PROJECTS_ICON}
+        title={PROJECTS_NAME}
+        content={PROJECTS_NAME}
+        closeHandler={this.closeWindowHandler}
+      />
+    );
+  }
+
   render() {
     const { showStartMenu, openWindows } = this.state;
     return (
       <div>
         <ResetStyles />
-        <DesktopIcons 
-          openWindowHandler={this.openWindowHandler}
-          closeWindowHandler={this.closeWindowHandler}
+        <DesktopIcons
+          documentsIcon={DOCUMENTS_ICON}
+          documentsName={DOCUMENTS_NAME}
+          openDocuments={this.openDocuments}
+          computerIcon={COMPUTER_ICON}
+          computerName={COMPUTER_NAME}
+          openComputer={this.openComputer}
+          projectsIcon={PROJECTS_ICON}
+          projectsName={PROJECTS_NAME}
+          openProjects={this.openProjects}
         />
         
         <ul>
           {
-            Object.keys(openWindows).map((key, index) => {
+            Object.keys(openWindows).map((key) => {
               return <li key={key}>{openWindows[key]}</li>
             })
           }
         </ul>
-        
-        {showStartMenu ? <StartMenu /> : null}
+
+        {showStartMenu ? (
+          <StartMenu
+            toggleStartMenu={this.toggleStartMenu}
+            documentsIcon={DOCUMENTS_ICON}
+            documentsName={DOCUMENTS_NAME}
+            openDocuments={this.openDocuments}
+            computerIcon={COMPUTER_ICON}
+            computerName={COMPUTER_NAME}
+            openComputer={this.openComputer}
+            projectsIcon={PROJECTS_ICON}
+            projectsName={PROJECTS_NAME}
+            openProjects={this.openProjects}
+          />
+        ) : null}
         
         <ThemeProvider theme={themes.default}>
           <AppBar style={{

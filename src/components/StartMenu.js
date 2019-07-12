@@ -1,16 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { List } from '@react95/core';
 
-function StartMenu() {
-  return (
+class StartMenu extends Component {
+
+  render() {
+    const { toggleStartMenu,
+            documentsIcon, 
+            documentsName,
+            openDocuments,
+            computerIcon,
+            computerName,
+            openComputer,
+            projectsIcon, 
+            projectsName,
+            openProjects,
+          } = this.props;
+        
+    return (
     <div>
       <List style={{
           position: 'absolute',
           bottom: '48px'
         }}>
 
-        <List.Item icon="folder_file">Documents</List.Item>
-        <List.Item icon="folder_exe2">
+        <List.Item icon={documentsIcon} onClick={() => {
+            toggleStartMenu();
+            openDocuments();
+          }}
+        >
+          {documentsName}
+        </List.Item>
+        <List.Item icon={computerIcon} onClick={() => {
+            toggleStartMenu();
+            openComputer();
+          }}
+        >
+          {computerName}
+        </List.Item>
+        <List.Item icon={projectsIcon} onClick={() => {
+            toggleStartMenu();
+            openProjects();
+          }}
+        >
+          {projectsName}
+        </List.Item>
+        {/* <List.Item icon="folder_exe2">
           <List>
             <List.Item icon="folder_exe">Accessories</List.Item>
             <List.Item icon="folder_exe">StartUp</List.Item>
@@ -30,7 +64,7 @@ function StartMenu() {
         </List.Item>
         <List.Item icon="file_find">Find</List.Item>
         <List.Item icon="help_book">Help</List.Item>
-        <List.Item icon="loader_bat">Run...</List.Item>
+        <List.Item icon="loader_bat">Run...</List.Item> */}
         <List.Divider />
         <List.Item icon="computer_3" onClick={() => {
           window.open("about:blank", "_self");
@@ -39,7 +73,9 @@ function StartMenu() {
         Shut Down...</List.Item>
       </List>
     </div>
-  );
+    );
+  }
+  
 }
 
 export default StartMenu;
