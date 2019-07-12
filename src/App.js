@@ -3,7 +3,6 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { reset, themes, Button, AppBar, Toolbar, Avatar } from "react95";
 
 import StartMenu from './components/StartMenu';
-import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
 import { Icon } from '@react95/core';
 
@@ -94,7 +93,7 @@ class App extends Component {
         </ul>
         
         {showStartMenu ? <StartMenu /> : null}
-
+        
         <ThemeProvider theme={themes.default}>
           <AppBar style={{
             bottom: 0,

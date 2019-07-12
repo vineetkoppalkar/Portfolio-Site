@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, List } from '@react95/core';
 
+import './Window.css';
+
 class Window extends Component {
 
   constructor(props) {
@@ -24,12 +26,12 @@ class Window extends Component {
 
   render() {
     const { showModal } = this.state;
-    const { title, content } = this.props;
+    const { icon, title, content } = this.props;
     return (
       <div>
         {showModal && (
           <Modal
-            icon="folder"
+            icon={icon}
             title={title}
             closeModal={this._closeModal}
             menu={[

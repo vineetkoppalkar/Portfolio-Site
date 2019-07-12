@@ -1,13 +1,16 @@
-button {
+.iconBtn {
+  width: 75px;
+  margin: 8px;
+  padding: 8px;
   background: none;
   border: none;
 }
 
-button:hover {
+.iconBtn:hover {
   background-color: lightblue;
 }
 
-button:active {
+.iconBtn:active {
   background-color: blue;
 }
 
