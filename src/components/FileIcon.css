@@ -1,0 +1,16 @@
+button {
+  background: none;
+  border: none;
+}
+
+button:hover {
+  background-color: lightblue;
+}
+
+button:active {
+  background-color: blue;
+}
+
+.icon {
+  margin: 0 auto;
+}

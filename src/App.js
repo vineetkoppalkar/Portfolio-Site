@@ -3,6 +3,9 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { reset, themes, Button, AppBar, Toolbar, Avatar } from "react95";
 
 import StartMenu from './components/StartMenu';
+import Window from './components/Window';
+import DesktopIcons from './components/DesktopIcons';
+import { Icon } from '@react95/core';
 
 const ResetStyles = createGlobalStyle`
   ${reset}
@@ -14,7 +17,8 @@ class App extends Component {
     super(props);
     this.state = {
       curTime: this.formatAMPM(new Date()),
-      showStartMenu: false
+      showStartMenu: false,
+      openWindows: {}
     }
   }
 
@@ -43,12 +47,54 @@ class App extends Component {
     });
   }
 
+  openWindowHandler = (name, windowObj) => {
+    let { openWindows } = this.state;
+    if (!(name in openWindows)) {
+      let updatedOpenWindows = openWindows;
+      updatedOpenWindows[name] = windowObj; 
+      this.setState({
+        openWindows: updatedOpenWindows
+      });
+      console.log("Opened " + name);
+    } else {
+      console.log("Cannot open " + name + " because it is already open");
+    }
+  }
+
+  closeWindowHandler = (name, window) => {
+    let { openWindows } = this.state;
+    if (name in openWindows) {
+      let updatedOpenWindows = openWindows;
+      delete updatedOpenWindows[name]; 
+      this.setState({
+        openWindows: updatedOpenWindows
+      });
+      console.log("Closed " + name);
+    } else {
+      console.log("Cannot close " + name + " because it is not open");
+    }
+  }
+
   render() {
-    const { showStartMenu } = this.state;
+    const { showStartMenu, openWindows } = this.state;
     return (
       <div>
         <ResetStyles />
+        <DesktopIcons 
+          openWindowHandler={this.openWindowHandler}
+          closeWindowHandler={this.closeWindowHandler}
+        />
+        
+        <ul>
+          {
+            Object.keys(openWindows).map((key, index) => {
+              return <li key={key}>{openWindows[key]}</li>
+            })
+          }
+        </ul>
+        
         {showStartMenu ? <StartMenu /> : null}
+
         <ThemeProvider theme={themes.default}>
           <AppBar style={{
             bottom: 0,
@@ -57,11 +103,11 @@ class App extends Component {
             <Toolbar style={{ justifyContent: 'space-between', paddingRight: '1rem' }}>
               {showStartMenu ? (
                 <Button active onClick={() => this.toggleStartMenu()}>
-                  <span role="img" aria-label="laptop">💻</span> Start
+                  <Icon name="logo" /> Start
                 </Button>
               ) : (
                 <Button onClick={() => this.toggleStartMenu()}>
-                  <span role="img" aria-label="laptop">💻</span> Start
+                  <Icon name="logo" /> Start
                 </Button>
               )}
               <Avatar square style={{width: 'auto', padding: "10px"}}>{this.state.curTime}</Avatar>
