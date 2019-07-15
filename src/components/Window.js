@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, List } from '@react95/core';
+// import { List } from '@react95/core';
+// import Modal from './Modal';
 
 import './Window.css';
 
@@ -26,13 +28,14 @@ class Window extends Component {
 
   render() {
     const { showModal } = this.state;
-    const { icon, title, content } = this.props;
+    const { icon, title, content, isFocused, top, left } = this.props;
     return (
       <div>
         {showModal && (
           <Modal
             icon={icon}
             title={title}
+            className={isFocused ? "focus" : ""}
             closeModal={this._closeModal}
             menu={[
               {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { reset, themes, Button, AppBar, Toolbar, Avatar } from "react95";
+import { reset, themes, Button, AppBar, Toolbar, Avatar, Divider } from "react95";
 
 import StartMenu from './components/StartMenu';
 import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
-import { Icon } from '@react95/core';
+import { Tooltip, Icon } from '@react95/core';
 
 const ResetStyles = createGlobalStyle`
   ${reset}
@@ -27,7 +27,7 @@ class App extends Component {
     this.state = {
       curTime: this.formatAMPM(new Date()),
       showStartMenu: false,
-      openWindows: {}
+      windows: {}
     }
   }
 
@@ -56,27 +56,72 @@ class App extends Component {
     });
   }
 
-  openWindowHandler = (name, windowObj) => {
-    let { openWindows } = this.state;
-    if (!(name in openWindows)) {
-      let updatedOpenWindows = openWindows;
-      updatedOpenWindows[name] = windowObj; 
-      this.setState({
-        openWindows: updatedOpenWindows
-      });
+  updatedSelectedWindows = (name, windows) => {
+    Object.keys(windows).forEach((key) => {
+      if (key === name) { 
+        windows[key].isFocused = true;
+        console.log("Show " + key + " in front");
+      } else {
+        console.log("Setting focus of " + key + " to false");
+        windows[key].isFocused = false;
+      }
+    });
+
+    return windows
+  }
+
+  openWindowHandler = (name, icon, content, topValue, leftValue) => {
+    let { windows } = this.state;
+    if (!(name in windows)) {
+      windows[name] = {
+        icon,
+        title: name,
+        content,
+        top: topValue,
+        left: leftValue, 
+        isFocused: true
+      };
+
+      let updatedWindows = this.updatedSelectedWindows(name, windows);
+      this.setState({windows: updatedWindows});
       console.log("Opened " + name);
     } else {
       console.log("Cannot open " + name + " because it is already open");
     }
   }
 
+  // openWindowHandler = (name, icon, windowComponent) => {
+  //   let { windows } = this.state;
+  //   if (!(name in windows)) {
+  //     let updatedwindows = windows;
+
+  //     Object.keys(updatedwindows).forEach((key) => {
+  //       updatedwindows[key].window.props.isSelected = false;
+  //     });
+
+  //     let windowData = {};
+  //     windowData.windowComponent = windowComponent;
+  //     windowData.icon = icon;
+  //     windowData.isFocused = true;
+
+  //     updatedwindows[name] = windowData;
+
+  //     this.setState({
+  //       windows: updatedwindows
+  //     });
+  //     console.log("Opened " + name);
+  //   } else {
+  //     console.log("Cannot open " + name + " because it is already open");
+  //   }
+  // }
+
   closeWindowHandler = (name, window) => {
-    let { openWindows } = this.state;
-    if (name in openWindows) {
-      let updatedOpenWindows = openWindows;
-      delete updatedOpenWindows[name]; 
+    let { windows } = this.state;
+    if (name in windows) {
+      let updatedwindows = windows;
+      delete updatedwindows[name]; 
       this.setState({
-        openWindows: updatedOpenWindows
+        windows: updatedwindows
       });
       console.log("Closed " + name);
     } else {
@@ -85,39 +130,54 @@ class App extends Component {
   }
 
   openDocuments = () => {
-    this.openWindowHandler(DOCUMENTS_NAME, 
-      <Window 
-        icon={DOCUMENTS_ICON}
-        title={DOCUMENTS_NAME}
-        content={DOCUMENTS_NAME}
-        closeHandler={this.closeWindowHandler}
-      />);
+    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, DOCUMENTS_NAME, "50px", "50px");
+    // this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON,
+    //   <Window 
+    //     icon={DOCUMENTS_ICON}
+    //     title={DOCUMENTS_NAME}
+    //     content={DOCUMENTS_NAME}
+    //     closeHandler={this.closeWindowHandler}
+    //     isSelected={true}
+    //     topValue="50px"
+    //     leftValue="50px"
+    //   />);
   };
 
   openComputer = () => {
-    this.openWindowHandler(COMPUTER_NAME,
-      <Window
-        icon={COMPUTER_ICON}
-        title={COMPUTER_NAME}
-        content={COMPUTER_NAME}
-        closeHandler={this.closeWindowHandler}
-      />
-    );
+    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, COMPUTER_NAME, "50px", "50px");
+    
+    // this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON,
+    //   <Window
+    //     icon={COMPUTER_ICON}
+    //     title={COMPUTER_NAME}
+    //     content={COMPUTER_NAME}
+    //     closeHandler={this.closeWindowHandler}
+    //     isSelected={true}
+    //     topValue="100px"
+    //     leftValue="100px"
+    //   />
+    // );
   }
 
   openProjects = () => {
-    this.openWindowHandler(PROJECTS_NAME,
-      <Window
-        icon={PROJECTS_ICON}
-        title={PROJECTS_NAME}
-        content={PROJECTS_NAME}
-        closeHandler={this.closeWindowHandler}
-      />
-    );
+    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, PROJECTS_NAME, "50px", "50px");
+
+    // this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON,
+    //   <Window
+    //     icon={PROJECTS_ICON}
+    //     title={PROJECTS_NAME}
+    //     content={PROJECTS_NAME}
+    //     closeHandler={this.closeWindowHandler}
+    //     isSelected={true}
+    //     topValue="150px"
+    //     leftValue="150px"
+    //   />
+    // );
   }
 
   render() {
-    const { showStartMenu, openWindows } = this.state;
+    const { showStartMenu, windows } = this.state;
+    console.table(windows);
     return (
       <div>
         <ResetStyles />
@@ -133,13 +193,25 @@ class App extends Component {
           openProjects={this.openProjects}
         />
         
-        <ul>
-          {
-            Object.keys(openWindows).map((key) => {
-              return <li key={key}>{openWindows[key]}</li>
-            })
-          }
-        </ul>
+        {
+          Object.keys(windows).map((key) => {
+            // return <li key={key}>{windows[key].windowComponent}</li>;
+            let { windows } = this.state;
+            let currentWindow = windows[key];
+            return(
+              <Window
+                key={key}
+                icon={currentWindow.icon}
+                title={currentWindow.title}
+                content={currentWindow.content}
+                isFocused={currentWindow.isFocused}
+                closeHandler={this.closeWindowHandler}
+                top={currentWindow.top}
+                left={currentWindow.left}
+              />
+            );
+          })
+        }
 
         {showStartMenu ? (
           <StartMenu
@@ -162,16 +234,43 @@ class App extends Component {
             top: 'auto',
           }}>
             <Toolbar style={{ justifyContent: 'space-between', paddingRight: '1rem' }}>
-              {showStartMenu ? (
-                <Button active onClick={() => this.toggleStartMenu()}>
-                  <Icon name="logo" /> Start
-                </Button>
-              ) : (
-                <Button onClick={() => this.toggleStartMenu()}>
-                  <Icon name="logo" /> Start
-                </Button>
-              )}
+              <div style={{display: "inline-flex"}}>
+                {showStartMenu ? (
+                  <Button active onClick={() => this.toggleStartMenu()}>
+                    <Icon name="logo" /> Start
+                  </Button>
+                ) : (
+                  <Button onClick={() => this.toggleStartMenu()}>
+                    <Icon name="logo" /> Start
+                  </Button>
+                )}
+                <Divider vertical size="md" style={{marginLeft: "0.5rem", marginRight: "0.5rem"}}/>
+                {
+                  Object.keys(windows).map((key) => {
+                    return (
+                      <Button 
+                        key={key} 
+                        style={{width: "8em"}}
+                        onClick={() => this.updatedSelectedWindows(key, windows)}
+                      >
+                        <Icon 
+                          name={windows[key].icon} 
+                          style={{
+                            width: "20%",
+                            marginRight: "5px"
+                          }}
+                        />
+                        {key}
+                      </Button>
+                    );
+                  })
+                }
+              </div>
               <Avatar square style={{width: 'auto', padding: "10px"}}>{this.state.curTime}</Avatar>
+
+              {/* <Tooltip text={this.state.curTime} delay={100}>
+                <Avatar square style={{width: 'auto', padding: "10px"}}>{this.state.curTime}</Avatar>
+              </Tooltip> */}
             </Toolbar>
           </AppBar>
         </ThemeProvider>
