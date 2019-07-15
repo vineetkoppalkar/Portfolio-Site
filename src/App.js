@@ -177,7 +177,7 @@ class App extends Component {
 
   render() {
     const { showStartMenu, windows } = this.state;
-    console.table(windows);
+    // console.table(windows);
     return (
       <div>
         <ResetStyles />
@@ -247,30 +247,49 @@ class App extends Component {
                 <Divider vertical size="md" style={{marginLeft: "0.5rem", marginRight: "0.5rem"}}/>
                 {
                   Object.keys(windows).map((key) => {
-                    return (
-                      <Button 
-                        key={key} 
-                        style={{width: "8em"}}
-                        onClick={() => this.updatedSelectedWindows(key, windows)}
-                      >
-                        <Icon 
-                          name={windows[key].icon} 
-                          style={{
-                            width: "20%",
-                            marginRight: "5px"
-                          }}
-                        />
-                        {key}
-                      </Button>
-                    );
+                    let window = windows[key];
+                    if (window.isFocused) {
+                      return (
+                        <Button 
+                          active
+                          key={window} 
+                          style={{width: "8em"}}
+                          onClick={() => this.updatedSelectedWindows(key, windows)}
+                        >
+                          <Icon 
+                            name={window.icon} 
+                            style={{
+                              width: "20%",
+                              marginRight: "5px"
+                            }}
+                          />
+                          {key}
+                        </Button>
+                      );
+                    } else { 
+                      return (
+                        <Button 
+                          key={window} 
+                          style={{width: "8em"}}
+                          onClick={() => this.updatedSelectedWindows(key, windows)}
+                        >
+                          <Icon 
+                            name={window.icon} 
+                            style={{
+                              width: "20%",
+                              marginRight: "5px"
+                            }}
+                          />
+                          {key}
+                        </Button>
+                      );
+                    }
                   })
                 }
               </div>
-              <Avatar square style={{width: 'auto', padding: "10px"}}>{this.state.curTime}</Avatar>
-
-              {/* <Tooltip text={this.state.curTime} delay={100}>
+              <Tooltip text={this.state.curTime} delay={100}>
                 <Avatar square style={{width: 'auto', padding: "10px"}}>{this.state.curTime}</Avatar>
-              </Tooltip> */}
+              </Tooltip>
             </Toolbar>
           </AppBar>
         </ThemeProvider>
