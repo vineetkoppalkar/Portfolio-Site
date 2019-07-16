@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { reset, themes, Button, AppBar, Toolbar, Avatar, Divider } from "react95";
+import { Tooltip, Icon, List } from '@react95/core';
 
 import StartMenu from './components/StartMenu';
 import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
-import { Tooltip, Icon } from '@react95/core';
+import DocumentContentContainer from './components/DocumentContentContainer'
 
 const ResetStyles = createGlobalStyle`
   ${reset}
@@ -20,40 +21,46 @@ const COMPUTER_ICON = "computer"
 const PROJECTS_NAME = "Projects"
 const PROJECTS_ICON = "folder"
 
+const formatAMPM = (date) => {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  let strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      curTime: this.formatAMPM(new Date()),
+      curTime: formatAMPM(new Date()),
       showStartMenu: false,
       windows: {}
     }
   }
 
-  formatAMPM = (date) => {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    let strTime = hours + ':' + minutes + ' ' + ampm;
-    return strTime;
-  }
-
   componentDidMount() {
     setInterval( () => {
       this.setState({
-        curTime : this.formatAMPM(new Date())
+        curTime : formatAMPM(new Date())
       })
     },1000)
   }
 
-  toggleStartMenu = () => {
-    this.setState({
-      showStartMenu: !this.state.showStartMenu
-    });
+  toggleStartMenu = (value = null) => {
+    if (value != null) {
+      this.setState({
+        showStartMenu: value
+      });
+    } else {
+      this.setState({
+        showStartMenu: !this.state.showStartMenu
+      });
+    }
   }
 
   updatedSelectedWindows = (name, windows) => {
@@ -71,7 +78,10 @@ class App extends Component {
 
   setWindowFocus = (name) => {
     let updatedWindows = this.updatedSelectedWindows(name, this.state.windows);
-    this.setState({windows: updatedWindows});
+    this.setState({
+      windows: updatedWindows,
+      showStartMenu: false
+    });
   }
 
   openWindowHandler = (name, icon, content, topValue, leftValue) => {
@@ -87,37 +97,15 @@ class App extends Component {
       };
 
       let updatedWindows = this.updatedSelectedWindows(name, windows);
-      this.setState({windows: updatedWindows});
+      this.setState({
+        windows: updatedWindows,
+        showStartMenu: false      
+      });
       console.log("Opened " + name);
     } else {
       console.log("Cannot open " + name + " because it is already open");
     }
   }
-
-  // openWindowHandler = (name, icon, windowComponent) => {
-  //   let { windows } = this.state;
-  //   if (!(name in windows)) {
-  //     let updatedwindows = windows;
-
-  //     Object.keys(updatedwindows).forEach((key) => {
-  //       updatedwindows[key].window.props.isSelected = false;
-  //     });
-
-  //     let windowData = {};
-  //     windowData.windowComponent = windowComponent;
-  //     windowData.icon = icon;
-  //     windowData.isFocused = true;
-
-  //     updatedwindows[name] = windowData;
-
-  //     this.setState({
-  //       windows: updatedwindows
-  //     });
-  //     console.log("Opened " + name);
-  //   } else {
-  //     console.log("Cannot open " + name + " because it is already open");
-  //   }
-  // }
 
   closeWindowHandler = (name, window) => {
     let { windows } = this.state;
@@ -125,7 +113,8 @@ class App extends Component {
       let updatedwindows = windows;
       delete updatedwindows[name]; 
       this.setState({
-        windows: updatedwindows
+        windows: updatedwindows,
+        showStartMenu: false
       });
       console.log("Closed " + name);
     } else {
@@ -134,20 +123,19 @@ class App extends Component {
   }
 
   openDocuments = () => {
-    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, DOCUMENTS_NAME, "50px", "50px");
+    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, <DocumentContentContainer />, "50px", "50px");
   };
 
   openComputer = () => {
-    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, COMPUTER_NAME, "50px", "50px");
+    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <DocumentContentContainer />, "100px", "50px");
   }
 
   openProjects = () => {
-    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, PROJECTS_NAME, "50px", "50px");
+    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, <DocumentContentContainer />, "150px", "50px");
   }
 
   render() {
     const { showStartMenu, windows } = this.state;
-    // console.table(windows);
     return (
       <div>
         <ResetStyles />
@@ -175,7 +163,7 @@ class App extends Component {
                 content={currentWindow.content}
                 isFocused={currentWindow.isFocused}
                 closeHandler={this.closeWindowHandler}
-                top={currentWindow.top}
+                topValue={currentWindow.top}
                 left={currentWindow.left}
                 setWindowFocus={this.setWindowFocus}
               />

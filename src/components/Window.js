@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Modal, List } from '@react95/core';
-// import { List } from '@react95/core';
-// import Modal from './Modal';
 
 import './Window.css';
 
@@ -28,14 +26,18 @@ class Window extends Component {
 
   render() {
     const { showModal } = this.state;
-    const { icon, title, content, isFocused, top, left, setWindowFocus } = this.props;
+    const { icon, title, content, isFocused, topValue, left, setWindowFocus } = this.props;
     return (
-      <div style={isFocused ? {position: "relative", zIndex: 1} : {position: "relative", zIndex: 0}} onMouseDown={() => setWindowFocus(title)}>
+      <div
+        onMouseDown={() => setWindowFocus(title)}
+        style={isFocused ? {position: "relative", zIndex: 1, top: topValue} : {position: "relative", zIndex: 0}}
+      >
         {showModal && (
           <Modal
             icon={icon}
             title={title}
             closeModal={this._closeModal}
+            width="auto"
             menu={[
               {
                 name: 'File',
