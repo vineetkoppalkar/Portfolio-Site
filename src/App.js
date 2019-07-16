@@ -21,6 +21,9 @@ const COMPUTER_ICON = "computer"
 const PROJECTS_NAME = "Projects"
 const PROJECTS_ICON = "folder"
 
+const USER_NAME = "Vineet"
+const USER_ICON = "user"
+
 const formatAMPM = (date) => {
   let hours = date.getHours();
   let minutes = date.getMinutes();
@@ -134,8 +137,12 @@ class App extends Component {
     this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, <DocumentContentContainer />, "150px", "50px");
   }
 
+  openUser = () => {
+    this.openWindowHandler(USER_NAME, USER_ICON, <DocumentContentContainer />, "200px", "50px");
+  }
+
   render() {
-    const { showStartMenu, windows } = this.state;
+    const { showStartMenu, windows, curTime } = this.state;
     return (
       <div>
         <ResetStyles />
@@ -149,6 +156,9 @@ class App extends Component {
           projectsIcon={PROJECTS_ICON}
           projectsName={PROJECTS_NAME}
           openProjects={this.openProjects}
+          userIcon={USER_ICON}
+          userName={USER_NAME}
+          openUser={this.openUser}
         />
         
         {
@@ -174,6 +184,9 @@ class App extends Component {
         {showStartMenu ? (
           <StartMenu
             toggleStartMenu={this.toggleStartMenu}
+            userIcon={USER_ICON}
+            userName={USER_NAME}
+            openUser={this.openUser}
             documentsIcon={DOCUMENTS_ICON}
             documentsName={DOCUMENTS_NAME}
             openDocuments={this.openDocuments}
@@ -212,7 +225,10 @@ class App extends Component {
                           active
                           key={key} 
                           style={{width: "8em"}}
-                          onClick={() => this.updatedSelectedWindows(key, windows)}
+                          onClick={() => {
+                            this.updatedSelectedWindows(key, windows);
+                            this.toggleStartMenu(false)
+                          }}
                         >
                           <Icon 
                             name={window.icon} 
@@ -229,7 +245,10 @@ class App extends Component {
                         <Button 
                           key={key} 
                           style={{width: "8em"}}
-                          onClick={() => this.updatedSelectedWindows(key, windows)}
+                          onClick={() => {
+                            this.updatedSelectedWindows(key, windows);
+                            this.toggleStartMenu(false)
+                          }}
                         >
                           <Icon 
                             name={window.icon} 
@@ -245,8 +264,8 @@ class App extends Component {
                   })
                 }
               </div>
-              <Tooltip text={this.state.curTime} delay={100}>
-                <Avatar square style={{width: 'auto', padding: "10px"}}>{this.state.curTime}</Avatar>
+              <Tooltip text={curTime} delay={100}>
+                <Avatar square style={{width: 'auto', padding: "10px"}}>{curTime}</Avatar>
               </Tooltip>
             </Toolbar>
           </AppBar>

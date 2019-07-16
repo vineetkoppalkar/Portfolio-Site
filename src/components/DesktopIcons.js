@@ -15,6 +15,9 @@ class DesktopIcons extends Component {
             projectsIcon, 
             projectsName,
             openProjects,
+            userIcon,
+            userName,
+            openUser
           } = this.props;
 
     return (
@@ -38,6 +41,13 @@ class DesktopIcons extends Component {
             title={projectsName}
             image={projectsIcon}
             onClick={openProjects}
+          />
+        </li>
+        <li>
+          <FileIcon 
+            title={userName}
+            image={userIcon}
+            onClick={openUser}
           />
         </li>
       </ul>

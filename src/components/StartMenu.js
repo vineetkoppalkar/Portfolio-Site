@@ -14,6 +14,9 @@ class StartMenu extends Component {
             projectsIcon, 
             projectsName,
             openProjects,
+            userIcon,
+            userName,
+            openUser
           } = this.props;
         
     return (
@@ -22,6 +25,14 @@ class StartMenu extends Component {
           position: 'absolute',
           bottom: '48px'
         }}>
+
+        <List.Item icon={userIcon} onClick={() => {
+            toggleStartMenu();
+            openUser();
+          }}
+        >
+          {userName}
+        </List.Item>
 
         <List.Item icon={documentsIcon} onClick={() => {
             toggleStartMenu();

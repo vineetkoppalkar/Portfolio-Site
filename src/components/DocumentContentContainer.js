@@ -2,38 +2,45 @@ import React, { Component } from 'react';
 import { List, Icon } from '@react95/core';
 
 import FileIcon from './FileIcon';
+import ShortcutIcon from './ShortcutIcon';
+import CustomIcon from './CustomIcon';
 
-// import './FileIcon.css';
+import github from '../assets/images/github.ico';
+import linkedin from '../assets/images/linkedin.png';
+import pdficon from '../assets/images/pdficon.png';
+
+
 
 class DocumentContentContainer extends Component {
   render() {
     return ( 
       <ul style={{display: "inline-flex"}}>
         <li>
-          <FileIcon 
-            title="Folder"
-            image="folder"
-            onClick={() => alert("Clicked")}
+          <ShortcutIcon 
+            title="Github"
+            image={github}
+            hrefValue="https://github.com/vineetkoppalkar"
           />
         </li>
         <li>
-        <FileIcon 
-            title="Folder"
-            image="folder"
+          <ShortcutIcon 
+            title="LinkedIn"
+            image={linkedin}
+            hrefValue="https://www.linkedin.com/in/vineetkoppalkar/"
+          />
+        </li>
+        <li>
+          <CustomIcon 
+            title="Resume"
+            image={pdficon}
             onClick={() => alert("Clicked")}
+            isShortcut={false}
           />
         </li>
         <li>
           <FileIcon 
-            title="Folder"
-            image="folder"
-            onClick={() => alert("Clicked")}
-          />
-        </li>
-        <li>
-          <FileIcon 
-            title="Folder"
-            image="folder"
+            title="E-mail"
+            image="mail"
             onClick={() => alert("Clicked")}
           />
         </li>
