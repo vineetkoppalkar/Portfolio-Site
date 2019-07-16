@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { reset, themes, Button, AppBar, Toolbar, Avatar, Divider } from "react95";
-import { Tooltip, Icon, List } from '@react95/core';
+import { Tooltip, Icon } from '@react95/core';
 
 import StartMenu from './components/StartMenu';
 import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
 import DocumentContentContainer from './components/DocumentContentContainer'
+import CustomModal from './components/CustomModal';
 
 const ResetStyles = createGlobalStyle`
   ${reset}
 `;
+
+const WINDOW = 0;
+const MODAL = 1;
 
 const DOCUMENTS_NAME = "Documents"
 const DOCUMENTS_ICON = "folder_file"
@@ -23,6 +27,10 @@ const PROJECTS_ICON = "folder"
 
 const USER_NAME = "Vineet"
 const USER_ICON = "user"
+
+const EMAIL_TITLE = "E-mail";
+const EMAIL_ICON = "mail";
+const EMAIL_CONTENT = "koppalkarvineet@gmail.com"
 
 const formatAMPM = (date) => {
   let hours = date.getHours();
@@ -87,7 +95,7 @@ class App extends Component {
     });
   }
 
-  openWindowHandler = (name, icon, content, topValue, leftValue) => {
+  openWindowHandler = (name, icon, content, type, topValue, leftValue) => {
     let { windows } = this.state;
     if (!(name in windows)) {
       windows[name] = {
@@ -96,7 +104,8 @@ class App extends Component {
         content,
         top: topValue,
         left: leftValue, 
-        isFocused: true
+        isFocused: true,
+        type
       };
 
       let updatedWindows = this.updatedSelectedWindows(name, windows);
@@ -126,19 +135,23 @@ class App extends Component {
   }
 
   openDocuments = () => {
-    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, <DocumentContentContainer />, "50px", "50px");
+    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "50px", "50px");
   };
 
   openComputer = () => {
-    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <DocumentContentContainer />, "100px", "50px");
+    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "100px", "100px");
   }
 
   openProjects = () => {
-    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, <DocumentContentContainer />, "150px", "50px");
+    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "150px", "150px");
   }
 
   openUser = () => {
-    this.openWindowHandler(USER_NAME, USER_ICON, <DocumentContentContainer />, "200px", "50px");
+    this.openWindowHandler(USER_NAME, USER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "200px", "200px");
+  }
+
+  openEmailAlert = () => {
+    this.openWindowHandler(EMAIL_TITLE, EMAIL_ICON, EMAIL_CONTENT, MODAL, "250px", "250px");
   }
 
   render() {
@@ -165,19 +178,39 @@ class App extends Component {
           Object.keys(windows).map((key) => {
             let { windows } = this.state;
             let currentWindow = windows[key];
-            return(
-              <Window
-                key={key}
-                icon={currentWindow.icon}
-                title={currentWindow.title}
-                content={currentWindow.content}
-                isFocused={currentWindow.isFocused}
-                closeHandler={this.closeWindowHandler}
-                topValue={currentWindow.top}
-                left={currentWindow.left}
-                setWindowFocus={this.setWindowFocus}
-              />
-            );
+
+            switch(currentWindow.type) {
+              case WINDOW:
+                return (
+                  <Window
+                    key={key}
+                    icon={currentWindow.icon}
+                    title={currentWindow.title}
+                    content={currentWindow.content}
+                    isFocused={currentWindow.isFocused}
+                    closeHandler={this.closeWindowHandler}
+                    topValue={currentWindow.top}
+                    leftValue={currentWindow.left}
+                    setWindowFocus={this.setWindowFocus}
+                  />
+                );
+              case MODAL:
+                  return (
+                    <CustomModal
+                      key={key}
+                      icon={currentWindow.icon}
+                      title={currentWindow.title}
+                      content={currentWindow.content}
+                      isFocused={currentWindow.isFocused}
+                      closeHandler={this.closeWindowHandler}
+                      topValue={currentWindow.top}
+                      leftValue={currentWindow.left}
+                      setWindowFocus={this.setWindowFocus}
+                    />
+                  );
+              default:
+                return null;
+            }
           })
         }
 
