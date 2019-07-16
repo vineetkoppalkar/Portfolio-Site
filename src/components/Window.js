@@ -28,14 +28,13 @@ class Window extends Component {
 
   render() {
     const { showModal } = this.state;
-    const { icon, title, content, isFocused, top, left } = this.props;
+    const { icon, title, content, isFocused, top, left, setWindowFocus } = this.props;
     return (
-      <div>
+      <div style={isFocused ? {position: "relative", zIndex: 1} : {position: "relative", zIndex: 0}} onMouseDown={() => setWindowFocus(title)}>
         {showModal && (
           <Modal
             icon={icon}
             title={title}
-            className={isFocused ? "focus" : ""}
             closeModal={this._closeModal}
             menu={[
               {

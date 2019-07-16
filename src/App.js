@@ -66,8 +66,12 @@ class App extends Component {
         windows[key].isFocused = false;
       }
     });
-
     return windows
+  }
+
+  setWindowFocus = (name) => {
+    let updatedWindows = this.updatedSelectedWindows(name, this.state.windows);
+    this.setState({windows: updatedWindows});
   }
 
   openWindowHandler = (name, icon, content, topValue, leftValue) => {
@@ -173,6 +177,7 @@ class App extends Component {
                 closeHandler={this.closeWindowHandler}
                 top={currentWindow.top}
                 left={currentWindow.left}
+                setWindowFocus={this.setWindowFocus}
               />
             );
           })
