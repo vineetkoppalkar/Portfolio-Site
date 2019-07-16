@@ -131,48 +131,14 @@ class App extends Component {
 
   openDocuments = () => {
     this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, DOCUMENTS_NAME, "50px", "50px");
-    // this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON,
-    //   <Window 
-    //     icon={DOCUMENTS_ICON}
-    //     title={DOCUMENTS_NAME}
-    //     content={DOCUMENTS_NAME}
-    //     closeHandler={this.closeWindowHandler}
-    //     isSelected={true}
-    //     topValue="50px"
-    //     leftValue="50px"
-    //   />);
   };
 
   openComputer = () => {
     this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, COMPUTER_NAME, "50px", "50px");
-    
-    // this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON,
-    //   <Window
-    //     icon={COMPUTER_ICON}
-    //     title={COMPUTER_NAME}
-    //     content={COMPUTER_NAME}
-    //     closeHandler={this.closeWindowHandler}
-    //     isSelected={true}
-    //     topValue="100px"
-    //     leftValue="100px"
-    //   />
-    // );
   }
 
   openProjects = () => {
     this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, PROJECTS_NAME, "50px", "50px");
-
-    // this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON,
-    //   <Window
-    //     icon={PROJECTS_ICON}
-    //     title={PROJECTS_NAME}
-    //     content={PROJECTS_NAME}
-    //     closeHandler={this.closeWindowHandler}
-    //     isSelected={true}
-    //     topValue="150px"
-    //     leftValue="150px"
-    //   />
-    // );
   }
 
   render() {
@@ -195,7 +161,6 @@ class App extends Component {
         
         {
           Object.keys(windows).map((key) => {
-            // return <li key={key}>{windows[key].windowComponent}</li>;
             let { windows } = this.state;
             let currentWindow = windows[key];
             return(
@@ -252,7 +217,7 @@ class App extends Component {
                       return (
                         <Button 
                           active
-                          key={window} 
+                          key={key} 
                           style={{width: "8em"}}
                           onClick={() => this.updatedSelectedWindows(key, windows)}
                         >
@@ -269,7 +234,7 @@ class App extends Component {
                     } else { 
                       return (
                         <Button 
-                          key={window} 
+                          key={key} 
                           style={{width: "8em"}}
                           onClick={() => this.updatedSelectedWindows(key, windows)}
                         >
