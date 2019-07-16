@@ -22,6 +22,7 @@ class StartMenu extends Component {
     return (
     <div>
       <List style={{
+          zIndex: 2,
           position: 'absolute',
           bottom: '48px'
         }}>
