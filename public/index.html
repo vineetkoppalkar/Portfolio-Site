@@ -21,10 +21,47 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+
+    <style>
+      #warning-message {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      #warning-message p {
+        font-size: 1.15rem;
+        margin: 25px;
+      }
+    </style>
   </head>
   <body style="height: 100%; margin: 0; background: teal; overflow: hidden;">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <style type="text/css">
+      #warning-message { display: none; }
+      @media only screen and (orientation:portrait) {
+          #wrapper { display:none; }
+          #warning-message { display:block; }
+      }
+      @media only screen and (orientation:landscape) {
+          #warning-message { display:none; }
+      }
+    </style>
+    
+    
+    <div id="wrapper">
+      <noscript>You need to enable JavaScript to run this app.</noscript>
+      <div id="root"></div>
+    </div>
+    <div id="warning-message">
+      <img src="%PUBLIC_URL%/landscape.png" alt="Rotate your device to landscape mode" />
+      <p>Please rotate your device to landscape mode</p>
+      <p>This website is best experienced in landscape mode</p>
+    </div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

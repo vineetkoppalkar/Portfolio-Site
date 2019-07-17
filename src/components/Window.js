@@ -51,7 +51,7 @@ class Window extends Component {
               style={{top: "35%"}}
               menu={[
                 {
-                  name: 'Filxe',
+                  name: 'File',
                   list: (
                     <List>
                       <List.Item onClick={this._closeModal}>Exit</List.Item>

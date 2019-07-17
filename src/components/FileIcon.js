@@ -13,7 +13,7 @@ class FileIcon extends Component {
         style={{color: colorValue}}
       >
         <Icon className="icon" name={image} />
-        {title}
+        <p>{title}</p>
       </button>
     );
   }

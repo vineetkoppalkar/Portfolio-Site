@@ -23,7 +23,7 @@ class StartMenu extends Component {
       <List style={{
           zIndex: 2,
           position: 'absolute',
-          bottom: '48px'
+          bottom: '50px'
         }}>
 
         <List.Item icon={userIcon} onClick={() => {

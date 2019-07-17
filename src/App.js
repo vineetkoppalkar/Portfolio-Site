@@ -7,6 +7,7 @@ import StartMenu from './components/StartMenu';
 import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
 import DocumentContentContainer from './components/DocumentContentContainer'
+import ComputerContentContainer from './components/ComputerContentContainer'
 import EmailAlert from './components/EmailAlert';
 
 const ResetStyles = createGlobalStyle`
@@ -186,7 +187,7 @@ class App extends Component {
   };
 
   openComputer = () => {
-    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
+    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <ComputerContentContainer />, WINDOW);
   }
 
   openProjects = () => {

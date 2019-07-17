@@ -8,12 +8,18 @@ import github from '../assets/images/github.ico';
 import linkedin from '../assets/images/linkedin.png';
 import pdficon from '../assets/images/pdficon.png';
 
-class DocumentContentContainer extends Component {
+class ComputerContentContainer extends Component {
   render() {
-    const { openEmailAlert } = this.props;
     return ( 
       <div>
         <ul style={{display: "inline-flex"}}>
+          <li>
+            <FileIcon 
+              title="Education.exe"
+              image="bat_exec"
+              onClick={() => alert("Education!")}
+            />
+          </li>
           <li>
             <ShortcutIcon 
               title="Github"
@@ -30,17 +36,10 @@ class DocumentContentContainer extends Component {
           </li>
           <li>
             <CustomIcon 
-              title="Resume.pdf"
+              title="Resume"
               image={pdficon}
               onClick={() => alert("Resume")}
               isShortcut={false}
-            />
-          </li>
-          <li>
-            <FileIcon 
-              title="E-mail.exe"
-              image="mail"
-              onClick={() => openEmailAlert()}
             />
           </li>
         </ul>
@@ -49,4 +48,4 @@ class DocumentContentContainer extends Component {
   }
 }
 
-export default DocumentContentContainer;
+export default ComputerContentContainer;
