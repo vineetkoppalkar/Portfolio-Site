@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
 import FileIcon from './FileIcon';
-import ShortcutIcon from './ShortcutIcon';
 import CustomIcon from './CustomIcon';
 
-import github from '../assets/images/github.ico';
-import linkedin from '../assets/images/linkedin.png';
-import pdficon from '../assets/images/pdficon.png';
+import bhvr from '../assets/images/bhvr-logo.png';
+import immersion from '../assets/images/immersion.png';
+import ballistiq from '../assets/images/ballistiq.ico';
 
 class ComputerContentContainer extends Component {
   render() {
@@ -21,25 +20,27 @@ class ComputerContentContainer extends Component {
             />
           </li>
           <li>
-            <ShortcutIcon 
-              title="Github"
-              image={github}
-              hrefValue="https://github.com/vineetkoppalkar"
-            />
-          </li>
-          <li>
-            <ShortcutIcon 
-              title="LinkedIn"
-              image={linkedin}
-              hrefValue="https://www.linkedin.com/in/vineetkoppalkar/"
+            <CustomIcon 
+              title="Game
+              Programmer"
+              image={bhvr}
+              onClick={() => alert("Bhvr")}
             />
           </li>
           <li>
             <CustomIcon 
-              title="Resume"
-              image={pdficon}
-              onClick={() => alert("Resume")}
-              isShortcut={false}
+              title="Software
+              Engineer"
+              image={immersion}
+              onClick={() => alert("Immersion")}
+            />
+          </li>
+          <li>
+            <CustomIcon 
+              title="Front-end
+              Developer"
+              image={ballistiq}
+              onClick={() => alert("Ballistiq")}
             />
           </li>
         </ul>

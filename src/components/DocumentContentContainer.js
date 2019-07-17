@@ -33,7 +33,6 @@ class DocumentContentContainer extends Component {
               title="Resume"
               image={pdficon}
               onClick={() => alert("Resume")}
-              isShortcut={false}
             />
           </li>
           <li>

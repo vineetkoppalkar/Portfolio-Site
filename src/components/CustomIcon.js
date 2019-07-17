@@ -8,7 +8,14 @@ class CustomIcon extends Component {
     const { image, title, onClick } = this.props;
     return (
       <button className="iconBtn" onClick={() => onClick()}>
-        <img src={image} alt={title} />
+        <img 
+          src={image} 
+          alt={title} 
+          style={{
+            width: "32px",
+            height: "32px"
+          }}
+        />
         {title}
       </button>
     );
