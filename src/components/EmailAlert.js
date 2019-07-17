@@ -6,14 +6,21 @@ class EmailAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModal: this.props.showModal
+      topValue: '',
+      leftValue: '',
+      showModal: this.props.showModal,
+      copySuccess: ''
     }
   }
 
   componentDidMount() {
+    let { topValue, leftValue } = this.props;
+
     this.setState({
+      topValue,
+      leftValue,
       showModal: true,
-      copySuccess: ''
+      
     })
   }
 
@@ -34,8 +41,8 @@ class EmailAlert extends Component {
   }
 
   render() {
-    const { showModal, copySuccess } = this.state;
-    const { icon, title, content, isFocused, setWindowFocus, topValue, leftValue } = this.props;
+    const { showModal, copySuccess, topValue, leftValue } = this.state;
+    const { icon, title, content, isFocused, setWindowFocus } = this.props;
     return (
       <div style={{
         position: "absolute",
@@ -67,12 +74,30 @@ class EmailAlert extends Component {
                 document.queryCommandSupported('copy') &&
                   <div 
                     style={{
-                      display: "grid",
                       textAlign: "center"
                     }}
                   >
-                    <Button onClick={() => this.copyToClipboard()}>Copy</Button>
-                    {copySuccess}
+                    <Button
+                      style={{
+                        width: "50%",
+                        float: "left"
+                      }}
+                      onClick={() => this.copyToClipboard()}
+                    >
+                      Copy
+                    </Button>
+                    <Button 
+                      style={{
+                        width: "50%",
+                        float: "right"
+                      }}
+                      onClick={this._closeModal}
+                    >
+                      Close
+                    </Button>
+                    <p style={{width: "100%"}}>
+                      {copySuccess}
+                    </p>
                   </div>
                 }
 

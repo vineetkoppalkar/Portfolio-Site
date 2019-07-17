@@ -11,7 +11,12 @@ class ShortcutIcon extends Component {
         window.open(hrefValue);
       }} type="button">
         <img src={image} alt={title} />
-        <div style={{position: "relative", marginTop: "-32px"}}>
+        <div 
+          style={{
+            position: "relative", 
+            marginTop: "-32px"
+          }}
+        >
           <Icon className="icon" name="shortcut" />
           {title}
         </div>

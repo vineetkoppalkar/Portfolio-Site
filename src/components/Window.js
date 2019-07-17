@@ -8,12 +8,17 @@ class Window extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      topValue: '',
+      leftValue: '',
       showModal: this.props.showModal
     }
   }
 
   componentDidMount() {
+    let { topValue, leftValue } = this.props;
     this.setState({
+      topValue,
+      leftValue,
       showModal: true
     })
   }
@@ -25,10 +30,10 @@ class Window extends Component {
   }
 
   render() {
-    const { showModal } = this.state;
-    const { icon, title, content, isFocused, topValue, leftValue, setWindowFocus } = this.props;
+    const { showModal, topValue, leftValue, } = this.state;
+    const { icon, title, content, isFocused,  setWindowFocus } = this.props;
     return (
-      <div class="window-class" style={{
+      <div className="window-class" style={{
         position: "absolute",
         top: topValue,
         left: leftValue

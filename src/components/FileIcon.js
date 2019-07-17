@@ -5,9 +5,13 @@ import './FileIcon.css';
 
 class FileIcon extends Component {
   render() {
-    const { image, title, onClick } = this.props;
+    const { image, title, onClick, colorValue } = this.props;
     return (
-      <button className="iconBtn" onClick={() => onClick()}>
+      <button 
+        className="iconBtn" 
+        onClick={() => onClick()}
+        style={{color: colorValue}}
+      >
         <Icon className="icon" name={image} />
         {title}
       </button>

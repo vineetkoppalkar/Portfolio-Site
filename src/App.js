@@ -50,7 +50,8 @@ class App extends Component {
     this.state = {
       curTime: formatAMPM(new Date()),
       showStartMenu: false,
-      windows: {}
+      windows: {},
+      windowPositionIndices: {}
     }
   }
 
@@ -84,7 +85,7 @@ class App extends Component {
         windows[key].isFocused = false;
       }
     });
-    return windows
+    return windows;
   }
 
   setWindowFocus = (name) => {
@@ -95,15 +96,59 @@ class App extends Component {
     });
   }
 
+  getWindowPositionIndex = (name) => {
+    let index = 0;
+    const { windowPositionIndices } = this.state;
+    let dictSize = Object.keys(windowPositionIndices).length;
+
+    if (dictSize === 0) {
+      windowPositionIndices[0] = name;
+    } else {
+      let foundAvailableIndex = false;
+      for (let i = 0; i < dictSize; ++i) {
+        if (windowPositionIndices[i] === null) {
+          windowPositionIndices[i] = name;
+          foundAvailableIndex = true;
+          index = i;
+          break;
+        }
+      }
+      if (!foundAvailableIndex) {
+        windowPositionIndices[dictSize] = name;
+        index = dictSize;
+      }
+    }
+    return index;
+  }
+
+  clearWindowPositionIndex = (name) => {
+    const { windowPositionIndices } = this.state;
+    if (Object.keys(windowPositionIndices).length === 0) {
+      return windowPositionIndices;
+    }
+
+    for (let key in windowPositionIndices) {
+      if (windowPositionIndices[key] === name) {
+        windowPositionIndices[key] = null;
+        break;
+      }
+    }
+
+    return windowPositionIndices;
+  }
+
   openWindowHandler = (name, icon, content, type) => {
     let { windows } = this.state;
     if (!(name in windows)) {
+      let index = this.getWindowPositionIndex(name);
+
       windows[name] = {
         icon,
         title: name,
         content,
         type,
         isFocused: true,
+        index
       };
 
       let updatedWindows = this.updatedSelectedWindows(name, windows);
@@ -123,8 +168,11 @@ class App extends Component {
     if (name in windows) {
       let updatedwindows = windows;
       delete updatedwindows[name]; 
+      let updatedWindowPositionIndices = this.clearWindowPositionIndex(name);
+
       this.setState({
         windows: updatedwindows,
+        windowPositionIndices: updatedWindowPositionIndices,
         showStartMenu: false
       });
       console.log("Closed " + name);
@@ -174,10 +222,10 @@ class App extends Component {
         />
         
         {
-          Object.keys(windows).map((key, index) => {
+          Object.keys(windows).map((key) => {
             let { windows } = this.state;
             let currentWindow = windows[key];
-
+            
             switch(currentWindow.type) {
               case WINDOW:
                 return (
@@ -188,8 +236,8 @@ class App extends Component {
                     content={currentWindow.content}
                     isFocused={currentWindow.isFocused}
                     closeHandler={this.closeWindowHandler}
-                    topValue={(7 * (index + 1)) + "%"}
-                    leftValue={(7 * (index + 1)) + "%"}
+                    topValue={(7 * (currentWindow.index + 1)) + "%"}
+                    leftValue={(7 * (currentWindow.index + 1)) + "%"}
                     setWindowFocus={this.setWindowFocus}
                   />
                 );
@@ -202,8 +250,8 @@ class App extends Component {
                       content={currentWindow.content}
                       isFocused={currentWindow.isFocused}
                       closeHandler={this.closeWindowHandler}
-                      topValue={(7 * (index + 1)) + "%"}
-                      leftValue={(7 * (index + 1)) + "%"}
+                      topValue={(7 * (currentWindow.index + 1)) + "%"}
+                      leftValue={(7 * (currentWindow.index + 1)) + "%"}
                       setWindowFocus={this.setWindowFocus}
                     />
                   );

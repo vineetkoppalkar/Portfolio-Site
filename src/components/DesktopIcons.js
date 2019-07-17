@@ -27,6 +27,7 @@ class DesktopIcons extends Component {
             title={documentsName}
             image={documentsIcon}
             onClick={openDocuments}
+            colorValue="white"
           />
         </li>
         <li>
@@ -34,6 +35,7 @@ class DesktopIcons extends Component {
             title={computerName}
             image={computerIcon}
             onClick={openComputer}
+            colorValue="white"
           />
         </li>
         <li>
@@ -41,6 +43,7 @@ class DesktopIcons extends Component {
             title={projectsName}
             image={projectsIcon}
             onClick={openProjects}
+            colorValue="white"
           />
         </li>
         <li>
@@ -48,6 +51,7 @@ class DesktopIcons extends Component {
             title={userName}
             image={userIcon}
             onClick={openUser}
+            colorValue="white"
           />
         </li>
       </ul>
