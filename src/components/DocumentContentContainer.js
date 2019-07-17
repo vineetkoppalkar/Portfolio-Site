@@ -30,7 +30,7 @@ class DocumentContentContainer extends Component {
           </li>
           <li>
             <CustomIcon 
-              title="Resume.pdf"
+              title="Resume"
               image={pdficon}
               onClick={() => alert("Resume")}
               isShortcut={false}
@@ -38,7 +38,7 @@ class DocumentContentContainer extends Component {
           </li>
           <li>
             <FileIcon 
-              title="E-mail.exe"
+              title="E-mail"
               image="mail"
               onClick={() => openEmailAlert()}
             />

@@ -15,7 +15,7 @@ class ComputerContentContainer extends Component {
         <ul style={{display: "inline-flex"}}>
           <li>
             <FileIcon 
-              title="Education.exe"
+              title="Education"
               image="bat_exec"
               onClick={() => alert("Education!")}
             />
