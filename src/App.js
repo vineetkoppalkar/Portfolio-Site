@@ -7,14 +7,14 @@ import StartMenu from './components/StartMenu';
 import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
 import DocumentContentContainer from './components/DocumentContentContainer'
-import CustomModal from './components/CustomModal';
+import EmailAlert from './components/EmailAlert';
 
 const ResetStyles = createGlobalStyle`
   ${reset}
 `;
 
 const WINDOW = 0;
-const MODAL = 1;
+const ALERT = 1;
 
 const DOCUMENTS_NAME = "Documents"
 const DOCUMENTS_ICON = "folder_file"
@@ -95,17 +95,15 @@ class App extends Component {
     });
   }
 
-  openWindowHandler = (name, icon, content, type, topValue, leftValue) => {
+  openWindowHandler = (name, icon, content, type) => {
     let { windows } = this.state;
     if (!(name in windows)) {
       windows[name] = {
         icon,
         title: name,
         content,
-        top: topValue,
-        left: leftValue, 
+        type,
         isFocused: true,
-        type
       };
 
       let updatedWindows = this.updatedSelectedWindows(name, windows);
@@ -115,6 +113,7 @@ class App extends Component {
       });
       console.log("Opened " + name);
     } else {
+      this.setWindowFocus(name);
       console.log("Cannot open " + name + " because it is already open");
     }
   }
@@ -135,23 +134,23 @@ class App extends Component {
   }
 
   openDocuments = () => {
-    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "50px", "50px");
+    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
   };
 
   openComputer = () => {
-    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "100px", "100px");
+    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
   }
 
   openProjects = () => {
-    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "150px", "150px");
+    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
   }
 
   openUser = () => {
-    this.openWindowHandler(USER_NAME, USER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW, "200px", "200px");
+    this.openWindowHandler(USER_NAME, USER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
   }
 
   openEmailAlert = () => {
-    this.openWindowHandler(EMAIL_TITLE, EMAIL_ICON, EMAIL_CONTENT, MODAL, "250px", "250px");
+    this.openWindowHandler(EMAIL_TITLE, EMAIL_ICON, EMAIL_CONTENT, ALERT);
   }
 
   render() {
@@ -175,7 +174,7 @@ class App extends Component {
         />
         
         {
-          Object.keys(windows).map((key) => {
+          Object.keys(windows).map((key, index) => {
             let { windows } = this.state;
             let currentWindow = windows[key];
 
@@ -189,22 +188,22 @@ class App extends Component {
                     content={currentWindow.content}
                     isFocused={currentWindow.isFocused}
                     closeHandler={this.closeWindowHandler}
-                    topValue={currentWindow.top}
-                    leftValue={currentWindow.left}
+                    topValue={(7 * (index + 1)) + "%"}
+                    leftValue={(7 * (index + 1)) + "%"}
                     setWindowFocus={this.setWindowFocus}
                   />
                 );
-              case MODAL:
+              case ALERT:
                   return (
-                    <CustomModal
+                    <EmailAlert
                       key={key}
                       icon={currentWindow.icon}
                       title={currentWindow.title}
                       content={currentWindow.content}
                       isFocused={currentWindow.isFocused}
                       closeHandler={this.closeWindowHandler}
-                      topValue={currentWindow.top}
-                      leftValue={currentWindow.left}
+                      topValue={(7 * (index + 1)) + "%"}
+                      leftValue={(7 * (index + 1)) + "%"}
                       setWindowFocus={this.setWindowFocus}
                     />
                   );

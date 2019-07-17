@@ -5,3 +5,8 @@
 .focus {
   z-index: 1;
 }
+
+.window-class > div > div { 
+  top: initial; 
+  left: initial; 
+}
