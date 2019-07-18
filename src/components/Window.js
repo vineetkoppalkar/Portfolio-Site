@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, List } from '@react95/core';
 
+import * as windowType from '../constants';
+
 import './Window.css';
 
 class Window extends Component {
@@ -26,7 +28,7 @@ class Window extends Component {
   _openModal = () => this.setState({ showModal: true });
   _closeModal = () => {
     this.setState({ showModal: false });
-    this.props.closeHandler(this.props.title);
+    this.props.closeHandler(this.props.title, windowType.WINDOW);
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
 import { Modal, Fieldset, Button, Tabs, Tab } from '@react95/core';
+
+import * as windowType from '../constants';
 
 class TabbedWindow extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class TabbedWindow extends Component {
   _openModal = () => this.setState({ showModal: true });
   _closeModal = () => {
     this.setState({ showModal: false });
-    this.props.closeHandler(this.props.title);
+    this.props.closeHandler(this.props.title, windowType.TABBED_WINDOW);
   }
 
   render() {

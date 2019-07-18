@@ -49,7 +49,7 @@ class App extends Component {
       curTime: formatAMPM(new Date()),
       showStartMenu: false,
       windows: {},
-      windowPositionIndices: {}
+      windowPositionManager: {}
     }
   }
 
@@ -94,51 +94,58 @@ class App extends Component {
     });
   }
 
-  getWindowPositionIndex = (name) => {
+  getWindowPositionIndex = (name, type) => {
     let index = 0;
-    const { windowPositionIndices } = this.state;
-    let dictSize = Object.keys(windowPositionIndices).length;
+    const { windowPositionManager } = this.state;
+
+    let windowTypeDict = windowPositionManager[type];
+    if (windowTypeDict == null) {
+      windowPositionManager[type] = {};
+      windowTypeDict = windowPositionManager[type];
+    }
+    let dictSize = Object.keys(windowTypeDict).length;
 
     if (dictSize === 0) {
-      windowPositionIndices[0] = name;
+      windowTypeDict[0] = name;
     } else {
       let foundAvailableIndex = false;
       for (let i = 0; i < dictSize; ++i) {
-        if (windowPositionIndices[i] === null) {
-          windowPositionIndices[i] = name;
+        if (windowTypeDict[i] === null) {
+          windowTypeDict[i] = name;
           foundAvailableIndex = true;
           index = i;
           break;
         }
       }
       if (!foundAvailableIndex) {
-        windowPositionIndices[dictSize] = name;
+        windowTypeDict[dictSize] = name;
         index = dictSize;
       }
     }
     return index;
   }
 
-  clearWindowPositionIndex = (name) => {
-    const { windowPositionIndices } = this.state;
-    if (Object.keys(windowPositionIndices).length === 0) {
-      return windowPositionIndices;
+  clearWindowPositionIndex = (name, type) => {
+    const { windowPositionManager } = this.state;
+    let windowTypeDict = windowPositionManager[type];
+    if (windowTypeDict == null || Object.keys(windowTypeDict).length === 0) {
+      return windowPositionManager;
     }
 
-    for (let key in windowPositionIndices) {
-      if (windowPositionIndices[key] === name) {
-        windowPositionIndices[key] = null;
+    for (let key in windowTypeDict) {
+      if (windowTypeDict[key] === name) {
+        windowTypeDict[key] = null;
         break;
       }
     }
 
-    return windowPositionIndices;
+    return windowPositionManager;
   }
 
   openWindowHandler = (name, icon, type, content) => {
     let { windows } = this.state;
     if (!(name in windows)) {
-      let index = this.getWindowPositionIndex(name);
+      let index = this.getWindowPositionIndex(name, type);
 
       windows[name] = {
         icon,
@@ -161,16 +168,16 @@ class App extends Component {
     }
   }
 
-  closeWindowHandler = (name, window) => {
+  closeWindowHandler = (name, type) => {
     let { windows } = this.state;
     if (name in windows) {
       let updatedwindows = windows;
       delete updatedwindows[name]; 
-      let updatedWindowPositionIndices = this.clearWindowPositionIndex(name);
+      let updatedwindowPositionManager = this.clearWindowPositionIndex(name, type);
 
       this.setState({
         windows: updatedwindows,
-        windowPositionIndices: updatedWindowPositionIndices,
+        windowPositionManager: updatedwindowPositionManager,
         showStartMenu: false
       });
       console.log("Closed " + name);

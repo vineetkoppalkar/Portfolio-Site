@@ -9,12 +9,28 @@ import bhvr from '../assets/images/bhvr-logo.png';
 import immersion from '../assets/images/immersion.png';
 import ballistiq from '../assets/images/ballistiq.ico';
 
+const EDUCATION_TITLE = "Education";
+const EDUCATION_ICON = "bat_exec";
+
 const WORK_ICON = "bat_exec_2";
-const BHVR_TITLE = "Game Programmer - Behaviour Interactive";
-const IMMR_TITLE = "Software Engineer - Immersion";
-const BALLISTIQ_TITLE = "Front-end Developer - Ballistiq Digial";
+
+const BHVR_NAME = "Behaviour Interactive";
+const BHVR_JOB = "Game Programmer";
+const BHVR_TITLE = `${BHVR_JOB} - ${BHVR_NAME}`;
+
+const IMMR_NAME = "Immersion";
+const IMMR_JOB = "Software Engineer";
+const IMMR_TITLE = `${IMMR_JOB} - ${IMMR_NAME}`;
+
+const BALLISTIQ_NAME = "Ballistiq Digial";
+const BALLISTIQ_JOB = "Front-end Developer";
+const BALLISTIQ_TITLE = `${BALLISTIQ_JOB} - ${BALLISTIQ_NAME}`;
 
 class ComputerContentContainer extends Component {
+
+  openEducation = () => {
+    this.props.openWindowHandler(EDUCATION_TITLE, EDUCATION_ICON, windowType.TABBED_WINDOW, "Education");
+  }
 
   openBhvr = () => {
     this.props.openWindowHandler(BHVR_TITLE, WORK_ICON, windowType.TABBED_WINDOW, "Content");
@@ -33,10 +49,10 @@ class ComputerContentContainer extends Component {
       <div>
         <ul style={{display: "inline-flex"}}>
           <li>
-            <FileIcon 
-              title="Education"
-              image="bat_exec"
-              onClick={() => alert("Education!")}
+            <FileIcon
+              title={EDUCATION_TITLE}
+              image={EDUCATION_ICON}
+              onClick={() => this.openEducation()}
             />
           </li>
           <li>
