@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+
+import * as windowType from './constants';
+
 import { reset, themes, Button, AppBar, Toolbar, Avatar, Divider } from "react95";
 import { Tooltip, Icon } from '@react95/core';
 
@@ -9,13 +12,11 @@ import DesktopIcons from './components/DesktopIcons';
 import DocumentContentContainer from './components/DocumentContentContainer'
 import ComputerContentContainer from './components/ComputerContentContainer'
 import EmailAlert from './components/EmailAlert';
+import TabbedWindow from './components/TabbedWindow';
 
 const ResetStyles = createGlobalStyle`
   ${reset}
 `;
-
-const WINDOW = 0;
-const ALERT = 1;
 
 const DOCUMENTS_NAME = "Documents"
 const DOCUMENTS_ICON = "folder_file"
@@ -28,10 +29,6 @@ const PROJECTS_ICON = "folder"
 
 const USER_NAME = "Vineet"
 const USER_ICON = "user"
-
-const EMAIL_TITLE = "E-mail";
-const EMAIL_ICON = "mail";
-const EMAIL_CONTENT = "koppalkarvineet@gmail.com"
 
 const formatAMPM = (date) => {
   let hours = date.getHours();
@@ -138,7 +135,7 @@ class App extends Component {
     return windowPositionIndices;
   }
 
-  openWindowHandler = (name, icon, content, type) => {
+  openWindowHandler = (name, icon, type, content) => {
     let { windows } = this.state;
     if (!(name in windows)) {
       let index = this.getWindowPositionIndex(name);
@@ -183,23 +180,35 @@ class App extends Component {
   }
 
   openDocuments = () => {
-    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
+    this.openWindowHandler(DOCUMENTS_NAME, DOCUMENTS_ICON, windowType.WINDOW, 
+      <DocumentContentContainer 
+        openWindowHandler={this.openWindowHandler}
+      />
+    );
   };
 
   openComputer = () => {
-    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, <ComputerContentContainer />, WINDOW);
+    this.openWindowHandler(COMPUTER_NAME, COMPUTER_ICON, windowType.WINDOW,
+      <ComputerContentContainer 
+        openWindowHandler={this.openWindowHandler}
+      />
+    );
   }
 
   openProjects = () => {
-    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
+    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, windowType.WINDOW,
+      <DocumentContentContainer
+        openWindowHandler={this.openWindowHandler}
+      />
+    );
   }
 
   openUser = () => {
-    this.openWindowHandler(USER_NAME, USER_ICON, <DocumentContentContainer openEmailAlert={this.openEmailAlert} />, WINDOW);
-  }
-
-  openEmailAlert = () => {
-    this.openWindowHandler(EMAIL_TITLE, EMAIL_ICON, EMAIL_CONTENT, ALERT);
+    this.openWindowHandler(USER_NAME, USER_ICON, windowType.WINDOW,
+      <DocumentContentContainer
+        openWindowHandler={this.openWindowHandler}
+      />
+    );
   }
 
   render() {
@@ -228,7 +237,7 @@ class App extends Component {
             let currentWindow = windows[key];
             
             switch(currentWindow.type) {
-              case WINDOW:
+              case windowType.WINDOW:
                 return (
                   <Window
                     key={key}
@@ -242,9 +251,23 @@ class App extends Component {
                     setWindowFocus={this.setWindowFocus}
                   />
                 );
-              case ALERT:
+              case windowType.ALERT:
                   return (
                     <EmailAlert
+                      key={key}
+                      icon={currentWindow.icon}
+                      title={currentWindow.title}
+                      content={currentWindow.content}
+                      isFocused={currentWindow.isFocused}
+                      closeHandler={this.closeWindowHandler}
+                      topValue={(7 * (currentWindow.index + 1)) + "%"}
+                      leftValue={(7 * (currentWindow.index + 1)) + "%"}
+                      setWindowFocus={this.setWindowFocus}
+                    />
+                  );
+              case windowType.TABBED_WINDOW:
+                  return (
+                    <TabbedWindow
                       key={key}
                       icon={currentWindow.icon}
                       title={currentWindow.title}

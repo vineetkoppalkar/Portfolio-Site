@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Icon } from '@react95/core';
 
 import './FileIcon.css';
 
