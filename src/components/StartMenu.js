@@ -2,6 +2,19 @@ import React, { Component } from 'react';
 import { List } from '@react95/core';
 
 class StartMenu extends Component {
+
+  shutDown = () => {
+
+    window.ga('send', {
+      hitType: 'event',
+      eventCategory: "Shutdown",
+      eventAction: "Pressed Shutdown from start menu",
+    });
+
+    window.open("about:blank", "_self");
+    window.close();
+  }
+
   render() {
     const { toggleStartMenu,
             documentsIcon, 
@@ -56,11 +69,12 @@ class StartMenu extends Component {
           {projectsName}
         </List.Item>
         <List.Divider />
-        <List.Item icon="computer_3" onClick={() => {
-          window.open("about:blank", "_self");
-          window.close();
-        }}>
-        Shut Down...</List.Item>
+        <List.Item 
+          icon="computer_3"
+          onClick={() => this.shutDown()}
+        >
+          Shut Down...
+        </List.Item>
       </List>
     </div>
     );

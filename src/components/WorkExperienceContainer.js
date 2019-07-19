@@ -4,6 +4,23 @@ import { Fieldset, Tabs, Tab } from '@react95/core';
 import './WorkExperienceContainer.css';
 
 class WorkExperienceContainer extends Component {
+
+  onClickTab = (tabName, companyName) => {
+    window.ga('send', {
+      hitType: 'event',
+      eventCategory: "Selected tab",
+      eventAction: `${tabName} ${companyName}`,
+    });
+  }
+
+  onClickCompanyUrl = (url) => {
+    window.ga('send', {
+      hitType: 'event',
+      eventCategory: "Clicked link",
+      eventAction: url,
+    });
+  };
+
   render() {
     const { logo, companyName, companyUrl, companyDescription, jobTitle } = this.props;
     return (
@@ -11,7 +28,7 @@ class WorkExperienceContainer extends Component {
         <Tab 
           activeTab="Company"
           title="Company"
-          onClick={() => console.log("Selected Company tab")}
+          onClick={() => this.onClickTab("Company", companyName)}
         >
           <Fieldset legend={companyName}>
             <img 
@@ -26,7 +43,13 @@ class WorkExperienceContainer extends Component {
             />
 
             <p style={{padding: "10px"}}>
-              <a href={companyUrl} target="_blank">{companyUrl}</a>
+              <a 
+                href={companyUrl}
+                target="_blank"
+                onClick={() => this.onClickCompanyUrl(companyUrl)}
+              >
+                {companyUrl}
+              </a>
             </p>
             <p style={{float: "left", padding: "1px 10px"}}>
               {companyDescription}
@@ -36,7 +59,7 @@ class WorkExperienceContainer extends Component {
         <Tab 
           activeTab="Contribution"
           title="Contribution"
-          onClick={() => console.log("Selected Contribution tab")}
+          onClick={() => this.onClickTab("Contribution", companyName)}
         >
           <Fieldset legend={jobTitle}>
             <p style={{padding: "10px"}}>

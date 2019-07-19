@@ -20,8 +20,7 @@ class EmailAlert extends Component {
     this.setState({
       topValue,
       leftValue,
-      showModal: true,
-      
+      showModal: true
     })
   }
 
@@ -32,13 +31,20 @@ class EmailAlert extends Component {
   }
 
   copyToClipboard = () => {
+    let email = this.props.content;
     const textField = document.createElement('textarea');
-    textField.innerText = this.props.content;
+    textField.innerText = email;
     document.body.appendChild(textField);
     textField.select();
     document.execCommand('copy');
     textField.remove();
     this.setState({copySuccess: "Copied!"});
+
+    window.ga('send', {
+      hitType: 'event',
+      eventCategory: "Copied email",
+      eventAction: email,
+    });
   }
 
   render() {

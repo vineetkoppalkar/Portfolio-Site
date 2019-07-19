@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { initGA } from './components/Tracking/Tracking';
+import { initGA, PageView } from './components/Tracking/Tracking';
 
 import * as windowType from './constants';
 
@@ -56,11 +56,12 @@ class App extends Component {
 
   componentDidMount() {
     initGA('UA-144168371-1');
+    PageView(window.location.pathname + window.location.search);
     setInterval( () => {
       this.setState({
         curTime : formatAMPM(new Date())
       })
-    },1000)
+    }, 30000)
   }
 
   toggleStartMenu = (value = null) => {
@@ -69,8 +70,15 @@ class App extends Component {
         showStartMenu: value
       });
     } else {
+      let updatedShowStartMenu = !this.state.showStartMenu;
       this.setState({
-        showStartMenu: !this.state.showStartMenu
+        showStartMenu: updatedShowStartMenu
+      });
+
+      window.ga('send', {
+        hitType: 'event',
+        eventCategory: "Toggled start menu",
+        eventAction: updatedShowStartMenu ? "Opened start menu" : "Closed start menu",
       });
     }
   }
@@ -163,6 +171,13 @@ class App extends Component {
         windows: updatedWindows,
         showStartMenu: false      
       });
+
+      window.ga('send', {
+        hitType: 'event',
+        eventCategory: "Opened window",
+        eventAction: name,
+      });
+      
       console.log("Opened " + name);
     } else {
       this.setWindowFocus(name);
@@ -182,6 +197,13 @@ class App extends Component {
         windowPositionManager: updatedwindowPositionManager,
         showStartMenu: false
       });
+
+      window.ga('send', {
+        hitType: 'event',
+        eventCategory: "Closed window",
+        eventAction: name,
+      });
+
       console.log("Closed " + name);
     } else {
       console.log("Cannot close " + name + " because it is not open");
