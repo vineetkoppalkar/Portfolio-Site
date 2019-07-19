@@ -3,24 +3,23 @@ import { Fieldset, Tabs, Tab } from '@react95/core';
 
 import './WorkExperienceContainer.css';
 
+const onClickTab = (tabName, companyName) => {
+  window.ga('send', {
+    hitType: 'event',
+    eventCategory: "Selected tab",
+    eventAction: `${tabName} ${companyName}`,
+  });
+}
+
+const onClickUrl = (url) => {
+  window.ga('send', {
+    hitType: 'event',
+    eventCategory: "Clicked link",
+    eventAction: url,
+  });
+};
+
 class WorkExperienceContainer extends Component {
-
-  onClickTab = (tabName, companyName) => {
-    window.ga('send', {
-      hitType: 'event',
-      eventCategory: "Selected tab",
-      eventAction: `${tabName} ${companyName}`,
-    });
-  }
-
-  onClickCompanyUrl = (url) => {
-    window.ga('send', {
-      hitType: 'event',
-      eventCategory: "Clicked link",
-      eventAction: url,
-    });
-  };
-
   render() {
     const { logo, companyName, companyUrl, companyDescription, jobTitle } = this.props;
     return (
@@ -28,7 +27,7 @@ class WorkExperienceContainer extends Component {
         <Tab 
           activeTab="Company"
           title="Company"
-          onClick={() => this.onClickTab("Company", companyName)}
+          onClick={() => onClickTab("Company", companyName)}
         >
           <Fieldset legend={companyName}>
             <img 
@@ -46,7 +45,7 @@ class WorkExperienceContainer extends Component {
               <a 
                 href={companyUrl}
                 target="_blank"
-                onClick={() => this.onClickCompanyUrl(companyUrl)}
+                onClick={() => onClickUrl(companyUrl)}
               >
                 {companyUrl}
               </a>

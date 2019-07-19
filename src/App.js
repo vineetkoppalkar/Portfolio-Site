@@ -12,6 +12,7 @@ import Window from './components/Window';
 import DesktopIcons from './components/DesktopIcons';
 import DocumentContentContainer from './components/DocumentContentContainer'
 import ComputerContentContainer from './components/ComputerContentContainer'
+import ProjectsContentContainer from './components/ProjectsContentContainer'
 import EmailAlert from './components/EmailAlert';
 import TabbedWindow from './components/TabbedWindow';
 
@@ -227,10 +228,8 @@ class App extends Component {
   }
 
   openProjects = () => {
-    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, windowType.WINDOW,
-      <DocumentContentContainer
-        openWindowHandler={this.openWindowHandler}
-      />
+    this.openWindowHandler(PROJECTS_NAME, PROJECTS_ICON, windowType.TABBED_WINDOW,
+      <ProjectsContentContainer />
     );
   }
 

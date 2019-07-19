@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Modal, List } from '@react95/core';
 
 import * as windowType from '../constants';
@@ -50,6 +51,7 @@ class Window extends Component {
               title={title}
               closeModal={this._closeModal}
               width="auto"
+              height="auto"
               style={{top: "35%"}}
               menu={[
                 {
