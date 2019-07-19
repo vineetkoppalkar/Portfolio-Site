@@ -88,21 +88,21 @@ class ComputerContentContainer extends Component {
           </li>
           <li>
             <CustomIcon 
-              title="Game Programmer"
+              title={BHVR_JOB}
               image={bhvr}
               onClick={() => this.openBhvr()}
             />
           </li>
           <li>
             <CustomIcon 
-              title="Software Engineer"
+              title={IMMR_JOB}
               image={immersion}
               onClick={() => this.openImmr()}
             />
           </li>
           <li>
             <CustomIcon 
-              title="Front-end Developer"
+              title={BALLISTIQ_JOB}
               image={ballistiq}
               onClick={() => this.openBallistiq()}
             />

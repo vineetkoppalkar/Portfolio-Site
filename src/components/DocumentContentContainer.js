@@ -43,7 +43,7 @@ class DocumentContentContainer extends Component {
             <CustomIcon 
               title="Resume"
               image={pdficon}
-              onClick={() => alert("Resume")}
+              onClick={() => alert("Resume to be added!")}
             />
           </li>
           <li>

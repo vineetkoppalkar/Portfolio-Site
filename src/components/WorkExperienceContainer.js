@@ -28,7 +28,7 @@ class WorkExperienceContainer extends Component {
             <p style={{padding: "10px"}}>
               <a href={companyUrl} target="_blank">{companyUrl}</a>
             </p>
-            <p style={{float: "left", padding: "10px"}}>
+            <p style={{float: "left", padding: "1px 10px"}}>
               {companyDescription}
             </p>
           </Fieldset>
@@ -39,9 +39,6 @@ class WorkExperienceContainer extends Component {
           onClick={() => console.log("Selected Contribution tab")}
         >
           <Fieldset legend={jobTitle}>
-            <p style={{padding: "10px"}}>
-              Ex veniam cillum anim enim veniam. Quis qui incididunt exercitation aliquip ea id ad sint. Pariatur fugiat officia reprehenderit aliquip commodo adipisicing est exercitation aliqua aliqua consequat cillum proident incididunt. Ullamco Lorem consectetur aliqua cillum enim voluptate sint.
-            </p>
             <p style={{padding: "10px"}}>
               Ex veniam cillum anim enim veniam. Quis qui incididunt exercitation aliquip ea id ad sint. Pariatur fugiat officia reprehenderit aliquip commodo adipisicing est exercitation aliqua aliqua consequat cillum proident incididunt. Ullamco Lorem consectetur aliqua cillum enim voluptate sint.
             </p>
