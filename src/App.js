@@ -55,6 +55,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    initGA('UA-144168371-1');
     setInterval( () => {
       this.setState({
         curTime : formatAMPM(new Date())
@@ -221,7 +222,6 @@ class App extends Component {
 
   render() {
     const { showStartMenu, windows, curTime } = this.state;
-    initGA('UA-144168371-1');
     return (
       <div>
         <ResetStyles />
