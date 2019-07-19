@@ -38,12 +38,18 @@ const onClickUrl = (url) => {
 class ProjectsContentContainer extends Component {
   render() {
     return (
-      <div>
+      <div style={{width: "300px"}}>
         <ResetStyles />
         <ThemeProvider theme={themes.default}>
           <Table>
             <TableHead>
-              <TableRow head>
+              <TableRow 
+                head
+                style={{ 
+                  height: 0, 
+                  lineHeight: "25px"
+                }}
+              >
                 <TableHeadCell>Type</TableHeadCell>
                 <TableHeadCell>Title</TableHeadCell>
                 <TableHeadCell>Langauge</TableHeadCell>

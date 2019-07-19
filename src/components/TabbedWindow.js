@@ -47,7 +47,7 @@ class TabbedWindow extends Component {
               icon={icon}
               title={title}
               closeModal={this._closeModal}
-              width="400"
+              width={title == 'Projects' ? '310' : '400'}
               height="auto"
             >
               <div 
