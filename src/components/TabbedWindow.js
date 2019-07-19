@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Fieldset, Button, Tabs, Tab } from '@react95/core';
+import { Modal } from '@react95/core';
 
 import * as windowType from '../constants';
 
@@ -57,46 +57,7 @@ class TabbedWindow extends Component {
                   lineHeight: "25px"
                 }}
               >
-                <Tabs>
-                  <Tab 
-                    activeTab="Company"
-                    title="Company"
-                    onClick={() => console.log("Selected Company tab")}
-                  >
-                    <Fieldset legend="Company Name">
-                      {content}
-                    </Fieldset>
-
-                    <Button 
-                      style={{
-                        width: "100%",
-                        float: "right"
-                      }}
-                      onClick={this._closeModal}
-                    >
-                      Close
-                    </Button>
-                  </Tab>
-                  <Tab 
-                    activeTab="Contribution"
-                    title="Contribution"
-                    onClick={() => console.log("Selected Contribution tab")}
-                  >
-                    <Fieldset legend="Job Title">
-                      {content}
-                    </Fieldset>
-
-                    <Button 
-                      style={{
-                        width: "100%",
-                        float: "right"
-                      }}
-                      onClick={this._closeModal}
-                    >
-                      Close
-                    </Button>
-                  </Tab>
-                </Tabs>
+                {content} 
               </div>
             </Modal>)}
         </div>
