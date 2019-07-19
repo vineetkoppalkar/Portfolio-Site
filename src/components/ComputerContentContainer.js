@@ -4,6 +4,7 @@ import * as windowType from '../constants';
 
 import FileIcon from './FileIcon';
 import CustomIcon from './CustomIcon';
+import EducationContainer from './EducationContainer';
 import WorkExperienceContainer from './WorkExperienceContainer';
 
 import bhvr from '../assets/images/bhvr-logo.png';
@@ -34,9 +35,10 @@ const BALLISTIQ_URL = "https://ballistiq.com/";
 const BALLISTIQ_DESCRIPTION = "Ballistiq is a digital design and development agency that builds engaging online communities, next-gen branded learning platforms and cutting edge marketplaces. We work with media, technology, gaming and entertainment companies across the globe. Our sister company is ArtStation.com";
 
 class ComputerContentContainer extends Component {
-
   openEducation = () => {
-    this.props.openWindowHandler(EDUCATION_TITLE, EDUCATION_ICON, windowType.TABBED_WINDOW, "Education");
+    this.props.openWindowHandler(EDUCATION_TITLE, EDUCATION_ICON, windowType.TABBED_WINDOW,
+      <EducationContainer />
+    );
   }
 
   openBhvr = () => {

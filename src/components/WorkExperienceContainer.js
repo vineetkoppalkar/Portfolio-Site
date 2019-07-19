@@ -37,8 +37,8 @@ class WorkExperienceContainer extends Component {
               style={{
                 float: "left",
                 margin: "10px",
-                width: "64px",
-                height: "64px"
+                width: "50px",
+                height: "50px"
               }}
             />
 
