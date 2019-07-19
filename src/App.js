@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { initGA } from './components/Tracking/Tracking';
 
 import * as windowType from './constants';
 
@@ -220,6 +221,7 @@ class App extends Component {
 
   render() {
     const { showStartMenu, windows, curTime } = this.state;
+    initGA('UA-144168371-1');
     return (
       <div>
         <ResetStyles />

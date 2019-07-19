@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import Window from './Window';
+import { PageView } from './Tracking/Tracking';
 
 import FileIcon from './FileIcon';
 
 class DesktopIcons extends Component {
   
+  componentDidMount() {
+    if (process.env.NODE_ENV === 'production') {
+      PageView(window.location.pathname + window.location.search);
+    }
+  }
+
   render() {
     const { documentsIcon, 
             documentsName,
