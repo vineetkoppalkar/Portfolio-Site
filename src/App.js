@@ -236,7 +236,14 @@ class App extends Component {
 
   openWelcome = () => {
     this.openWindowHandler(WELCOME_NAME, WELCOME_ICON, windowType.TABBED_WINDOW,
-      <WelcomeContentContainer />
+      <WelcomeContentContainer 
+        doucmentsName={DOCUMENTS_NAME}
+        documentsIcon={DOCUMENTS_ICON}
+        computerName={COMPUTER_NAME}
+        computerIcon={COMPUTER_ICON}   
+        projectsName={PROJECTS_NAME}
+        projectsIcon={PROJECTS_ICON}
+      />
     );
   }
 
