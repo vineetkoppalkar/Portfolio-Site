@@ -52,7 +52,9 @@ class App extends Component {
       curTime: formatAMPM(new Date()),
       showStartMenu: false,
       windows: {},
-      windowPositionManager: {}
+      windowPositionManager: {},
+      taskbarItemWidth: '6em',
+      numWindowsOpen: 0
     }
   }
 
@@ -137,6 +139,18 @@ class App extends Component {
     return index;
   }
 
+  getTaskBarItemWidth = (numOpenWindows) => {
+    if (numOpenWindows >= 9) {
+      return "5.25em";
+    } else if (numOpenWindows >= 7) {
+      return "6em";
+    } else if (numOpenWindows > 5) {
+      return "7em";
+    } else {
+      return "8em";
+    }
+  }
+
   clearWindowPositionIndex = (name, type) => {
     const { windowPositionManager } = this.state;
     let windowTypeDict = windowPositionManager[type];
@@ -155,7 +169,7 @@ class App extends Component {
   }
 
   openWindowHandler = (name, icon, type, content) => {
-    let { windows } = this.state;
+    let { windows, numWindowsOpen } = this.state;
     if (!(name in windows)) {
       let index = this.getWindowPositionIndex(name, type);
 
@@ -167,11 +181,16 @@ class App extends Component {
         isFocused: true,
         index
       };
-
+      
       let updatedWindows = this.updatedSelectedWindows(name, windows);
+      let updatedNumWindowsOpen = ++numWindowsOpen;
+      let updatedTaskbarItemWidth = this.getTaskBarItemWidth(updatedNumWindowsOpen);
+
       this.setState({
         windows: updatedWindows,
-        showStartMenu: false      
+        showStartMenu: false,
+        taskbarItemWidth: updatedTaskbarItemWidth,
+        numWindowsOpen: updatedNumWindowsOpen
       });
 
       window.ga('send', {
@@ -188,16 +207,21 @@ class App extends Component {
   }
 
   closeWindowHandler = (name, type) => {
-    let { windows } = this.state;
+    let { windows, numWindowsOpen } = this.state;
     if (name in windows) {
       let updatedwindows = windows;
-      delete updatedwindows[name]; 
+      delete updatedwindows[name];
       let updatedwindowPositionManager = this.clearWindowPositionIndex(name, type);
+
+      let updatedNumWindowsOpen = --numWindowsOpen;
+      let updatedTaskbarItemWidth = this.getTaskBarItemWidth(updatedNumWindowsOpen);
 
       this.setState({
         windows: updatedwindows,
         windowPositionManager: updatedwindowPositionManager,
-        showStartMenu: false
+        showStartMenu: false,
+        taskbarItemWidth: updatedTaskbarItemWidth,
+        numWindowsOpen: updatedNumWindowsOpen
       });
 
       window.ga('send', {
@@ -248,7 +272,7 @@ class App extends Component {
   }
 
   render() {
-    const { showStartMenu, windows, curTime } = this.state;
+    const { showStartMenu, windows, curTime, taskbarItemWidth, numWindowsOpen } = this.state;
     return (
       <div>
         <ResetStyles />
@@ -364,19 +388,21 @@ class App extends Component {
                         <Button 
                           active
                           key={key} 
-                          style={{width: "8em"}}
+                          style={{width: taskbarItemWidth}}
                           onClick={() => {
                             this.updatedSelectedWindows(key, windows);
                             this.toggleStartMenu(false)
                           }}
                         >
-                          <Icon 
-                            name={window.icon} 
-                            style={{
-                              width: "20%",
-                              marginRight: "5px"
-                            }}
-                          />
+                          {numWindowsOpen <= 5 ? (
+                            <Icon 
+                              name={window.icon} 
+                              style={{
+                                width: "20%",
+                                marginRight: "5px"
+                              }}
+                            />
+                          ) : null}
                           {key}
                         </Button>
                       );
@@ -384,19 +410,21 @@ class App extends Component {
                       return (
                         <Button 
                           key={key} 
-                          style={{width: "8em"}}
+                          style={{width: taskbarItemWidth}}
                           onClick={() => {
                             this.updatedSelectedWindows(key, windows);
                             this.toggleStartMenu(false)
                           }}
                         >
-                          <Icon 
-                            name={window.icon} 
-                            style={{
-                              width: "20%",
-                              marginRight: "5px"
-                            }}
-                          />
+                          {numWindowsOpen <= 5 ? (
+                            <Icon 
+                              name={window.icon} 
+                              style={{
+                                width: "20%",
+                                marginRight: "5px"
+                              }}
+                            />
+                          ) : null}
                           {key}
                         </Button>
                       );
