@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import { createGlobalStyle, ThemeProvider } from "styled-components";
+
 import { Modal } from '@react95/core';
+import { reset, themes, Button } from "react95";
 
 import * as windowType from '../constants';
+
+const ResetStyles = createGlobalStyle`
+  ${reset}
+`;
 
 class TabbedWindow extends Component {
   constructor(props) {
@@ -59,6 +66,16 @@ class TabbedWindow extends Component {
               >
                 {content} 
               </div>
+              <ResetStyles />
+              <ThemeProvider theme={themes.default}>
+                <div style={{width:"100%", marginTop: "10px"}}>
+                  <Button fullWidth
+                    onClick={() => this._closeModal()}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </ThemeProvider>
             </Modal>)}
         </div>
       </div>

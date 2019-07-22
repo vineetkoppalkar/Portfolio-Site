@@ -13,6 +13,7 @@ import DesktopIcons from './components/DesktopIcons';
 import DocumentContentContainer from './components/DocumentContentContainer'
 import ComputerContentContainer from './components/ComputerContentContainer'
 import ProjectsContentContainer from './components/ProjectsContentContainer'
+import WelcomeContentContainer from './components/WelcomeContentContainer'
 import EmailAlert from './components/EmailAlert';
 import TabbedWindow from './components/TabbedWindow';
 
@@ -29,8 +30,8 @@ const COMPUTER_ICON = "computer"
 const PROJECTS_NAME = "Projects"
 const PROJECTS_ICON = "folder"
 
-const USER_NAME = "Vineet"
-const USER_ICON = "user"
+const WELCOME_NAME = "Welcome"
+const WELCOME_ICON = "user"
 
 const formatAMPM = (date) => {
   let hours = date.getHours();
@@ -233,11 +234,9 @@ class App extends Component {
     );
   }
 
-  openUser = () => {
-    this.openWindowHandler(USER_NAME, USER_ICON, windowType.WINDOW,
-      <DocumentContentContainer
-        openWindowHandler={this.openWindowHandler}
-      />
+  openWelcome = () => {
+    this.openWindowHandler(WELCOME_NAME, WELCOME_ICON, windowType.TABBED_WINDOW,
+      <WelcomeContentContainer />
     );
   }
 
@@ -256,9 +255,9 @@ class App extends Component {
           projectsIcon={PROJECTS_ICON}
           projectsName={PROJECTS_NAME}
           openProjects={this.openProjects}
-          userIcon={USER_ICON}
-          userName={USER_NAME}
-          openUser={this.openUser}
+          welcomeIcon={WELCOME_ICON}
+          welcomeName={WELCOME_NAME}
+          openWelcome={this.openWelcome}
         />
         
         {
@@ -318,9 +317,9 @@ class App extends Component {
         {showStartMenu ? (
           <StartMenu
             toggleStartMenu={this.toggleStartMenu}
-            userIcon={USER_ICON}
-            userName={USER_NAME}
-            openUser={this.openUser}
+            welcomeIcon={WELCOME_ICON}
+            welcomeName={WELCOME_NAME}
+            openWelcome={this.openWelcome}
             documentsIcon={DOCUMENTS_ICON}
             documentsName={DOCUMENTS_NAME}
             openDocuments={this.openDocuments}
